@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from DbService WSDL service -->
+
+  <service name="Db" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://DefaultNamespace"/>
+      <parameter name="wsdlServiceElement" value="DbService"/>
+      <parameter name="schemaQualified" value="http://DefaultNamespace"/>
+      <parameter name="wsdlServicePort" value="Db"/>
+      <parameter name="className" value="Db"/>
+      <parameter name="wsdlPortType" value="Db"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://DefaultNamespace" name="main" qname="operNS:main" soapAction="">
+        <parameter xmlns:pns="http://DefaultNamespace" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:args" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://DefaultNamespace" xmlns:retNS="http://DefaultNamespace" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="update" qname="operNS:update" returnQName="retNS:updateReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://DefaultNamespace" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:id" type="tns:int"/>
+        <parameter xmlns:pns="http://DefaultNamespace" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:name" type="tns:string"/>
+        <parameter xmlns:pns="http://DefaultNamespace" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:age" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://DefaultNamespace" xmlns:retNS="http://DefaultNamespace" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="delete" qname="operNS:delete" returnQName="retNS:deleteReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://DefaultNamespace" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:id" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://DefaultNamespace" xmlns:retNS="http://DefaultNamespace" xmlns:rtns="http://DefaultNamespace" xmlns:tns="http://DefaultNamespace" name="read" qname="operNS:read" returnQName="retNS:readReturn" returnType="rtns:ArrayOf_xsd_anyType" returnItemQName="tns:item" soapAction="">
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" xmlns:pns="http://DefaultNamespace" qname="pns:id" type="tns:int"/>
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" xmlns:pns="http://DefaultNamespace" qname="pns:name" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://DefaultNamespace" name="close" qname="operNS:close" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://DefaultNamespace" xmlns:retNS="http://DefaultNamespace" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="create" qname="operNS:create" returnQName="retNS:createReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://DefaultNamespace" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:id" type="tns:int"/>
+        <parameter xmlns:pns="http://DefaultNamespace" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:name" type="tns:string"/>
+        <parameter xmlns:pns="http://DefaultNamespace" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:age" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://DefaultNamespace" xmlns:retNS="http://DefaultNamespace" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getConnection" qname="operNS:getConnection" returnQName="retNS:getConnectionReturn" returnType="rtns:anyType" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://DefaultNamespace" xmlns:retNS="http://DefaultNamespace" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getName" qname="operNS:getName" returnQName="retNS:getNameReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://DefaultNamespace" xmlns:retNS="http://DefaultNamespace" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getId" qname="operNS:getId" returnQName="retNS:getIdReturn" returnType="rtns:int" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://DefaultNamespace" name="setName" qname="operNS:setName" soapAction="">
+        <parameter xmlns:pns="http://DefaultNamespace" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:name" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://DefaultNamespace" xmlns:retNS="http://DefaultNamespace" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getAge" qname="operNS:getAge" returnQName="retNS:getAgeReturn" returnType="rtns:int" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://DefaultNamespace" name="setId" qname="operNS:setId" soapAction="">
+        <parameter xmlns:pns="http://DefaultNamespace" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:id" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://DefaultNamespace" name="setAge" qname="operNS:setAge" soapAction="">
+        <parameter xmlns:pns="http://DefaultNamespace" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:age" type="tns:int"/>
+      </operation>
+      <parameter name="allowedMethods" value="setName getAge read getName update main getId delete getConnection create setId close setAge"/>
+
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;mainResponse" type="java:DefaultNamespace.MainResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;readResponse" type="java:DefaultNamespace.ReadResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;update" type="java:DefaultNamespace.Update" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;createResponse" type="java:DefaultNamespace.CreateResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;delete" type="java:DefaultNamespace.Delete" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;setId" type="java:DefaultNamespace.SetId" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;getAge" type="java:DefaultNamespace.GetAge" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;read" type="java:DefaultNamespace.Read" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;close" type="java:DefaultNamespace.Close" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;getName" type="java:DefaultNamespace.GetName" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;setIdResponse" type="java:DefaultNamespace.SetIdResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;closeResponse" type="java:DefaultNamespace.CloseResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;getIdResponse" type="java:DefaultNamespace.GetIdResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;getAgeResponse" type="java:DefaultNamespace.GetAgeResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;setNameResponse" type="java:DefaultNamespace.SetNameResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;updateResponse" type="java:DefaultNamespace.UpdateResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;create" type="java:DefaultNamespace.Create" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;setName" type="java:DefaultNamespace.SetName" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;getConnection" type="java:DefaultNamespace.GetConnection" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <arrayMapping xmlns:ns="http://DefaultNamespace" xmlns:cmp-ns="http://www.w3.org/2001/XMLSchema" qname="ns:&gt;main" type="java:java.lang.String[]" innerType="cmp-ns:string" encodingStyle=""/>
+      <arrayMapping xmlns:ns="http://DefaultNamespace" xmlns:cmp-ns="http://www.w3.org/2001/XMLSchema" qname="ns:ArrayOf_xsd_anyType" type="java:java.lang.Object[]" innerType="cmp-ns:anyType" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;deleteResponse" type="java:DefaultNamespace.DeleteResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;getId" type="java:DefaultNamespace.GetId" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;setAge" type="java:DefaultNamespace.SetAge" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;getNameResponse" type="java:DefaultNamespace.GetNameResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;getConnectionResponse" type="java:DefaultNamespace.GetConnectionResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://DefaultNamespace" qname="ns:&gt;setAgeResponse" type="java:DefaultNamespace.SetAgeResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+  </service>
+</deployment>

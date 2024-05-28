@@ -1,0 +1,169 @@
+ INSERT INTO students_v (id,first_name,last_name,homeroom_number,phone,graduation_year) values(('3'::int4),(''),('Basha'),('5'::int4),(''),('2023'::int4
+ 
+ public static void main(String[] args) throws Exception {
+
+        Scanner sc = new Scanner(System.in);
+
+
+        Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/School", "postgres", "Root");
+
+        if (con != null) {
+            System.out.println("Connected");
+        } else {
+            System.out.println("Connection failed");
+        }
+
+        System.out.println("1.Insert");
+        System.out.println("2.Update");
+        System.out.println("3.Delete");
+        System.out.println("4.Select");
+        int choice=sc.nextInt();
+        sc.nextLine();
+
+
+        switch (choice) {
+            case 1:
+                System.out.println("enter id t insert");
+                int id = Integer.parseInt(sc.nextLine());
+                System.out.println("enter firs_name");
+                String first_name = sc.nextLine();
+                System.out.println("first name" + first_name);
+                sc.nextLine();
+                System.out.println("enter last_name");
+                String last_name = sc.nextLine();
+                System.out.println("last name" + last_name);
+                sc.nextLine();
+                System.out.println("enter homeroom_number");
+                int homeroom_number = Integer.parseInt(sc.nextLine());
+                System.out.println("enter phone number");
+                String phone = sc.nextLine();
+                System.out.println("phone"+ phone);
+                sc.nextLine();
+
+                System.out.println("enter gratuation_year");
+                int gratuation_year = sc.nextInt();
+
+                String query = "INSERT INTO students_v(id,first_name,last_name,homeroom_number,phone,graduation_year)" +
+                        " values(?,?,?,?,?,?)";
+                PreparedStatement preparedStatement = con.prepareStatement(query);
+                // firstName
+                preparedStatement.setInt(1, id);
+                preparedStatement.setString(2, first_name);
+                preparedStatement.setString(3, last_name);
+                preparedStatement.setInt(4, homeroom_number);
+                preparedStatement.setString(5, phone);
+                preparedStatement.setInt(6, gratuation_year);
+                System.out.println("Statement : "+preparedStatement);
+                //state.executeUpdate();
+                int rowaffected = preparedStatement.executeUpdate();
+                if (rowaffected >0) {
+                    System.out.println("inserted successfully");
+                } else {
+                    System.out.println("Error");
+                }
+                break;
+
+            case 2:
+                System.out.println("enter to update");
+                id = Integer.parseInt( sc.nextLine());
+                System.out.println("enter firs_name");
+                 first_name = sc.nextLine();
+                sc.nextLine();
+                System.out.println("enter last_name");
+                last_name = sc.nextLine();
+                System.out.println("enter homeroom_number");
+                homeroom_number = Integer.parseInt(sc.nextLine());
+                System.out.println("enter phone number");
+                phone = sc.nextLine();
+                sc.nextLine();
+                System.out.println("enter gratuation_year");
+                gratuation_year = sc.nextInt();
+
+
+                PreparedStatement Updatestate = con.prepareStatement("UPDATE students_v set first_name=?,last_name=?,homeroom_number=?,phone=?,graduation_year=? where id=?");
+
+                Updatestate.setString(1, first_name);
+                Updatestate.setString(2, last_name);
+                Updatestate.setInt(3, homeroom_number);
+                Updatestate.setString(4, phone);
+                Updatestate.setInt(5, gratuation_year);
+                Updatestate.setInt(6, id);
+                Updatestate.executeUpdate();
+
+
+                break;
+
+            case 3:
+                System.out.println("enter Id to delete");
+                id=sc.nextInt();
+
+                PreparedStatement Delete= con.prepareStatement("DELETE FROM students_v where id=?");
+                Delete.setInt(1,id);
+                Delete.executeUpdate();
+
+            case 4:
+               // System.out.println("enter Id to reade");
+                //id=sc.nextInt();
+                Statement read = con.createStatement();
+                ResultSet rs = read.executeQuery("SELECT * FROM students_v");
+                while (rs.next()){
+                    id=rs.getInt("id");
+                    first_name=rs.getString("first_name");
+                    last_name=rs.getString("last_name");
+                    homeroom_number=rs.getInt("homeroom_number");
+                    phone=rs.getString("phone");
+                   //graduation_year=rs.getInt("graduation_year");
+                    System.out.println(id+"  "+first_name+"  "+last_name+"  "+homeroom_number+"  "+phone);
+                }
+
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + choice);
+        }
+
+        con.close();
+        sc.close();
+
+
+
+
+
+
+
+        }
+      /*  try{
+            PreparedStatement state= con.prepareStatement("UPDATE students set first_name='Arun' where id=1");
+          //  state.setInt(1,1);
+            /*state.setString(2,"Will");
+            state.setString(3,"Jack");
+            state.setInt(4,3);
+            state.setString(5,"435687912");
+            state.setString(6,"jac@gamil.com");
+            state.setInt(7,2023);
+
+            int rowsAffected = state.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println(" updated successfully!");
+            } else {
+                System.out.println("Record not found for update!");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }*/
+
+          /*  try {
+                PreparedStatement state = con.prepareStatement("DELEtE  from students where id=1");
+                state.setString(2, "Arun");
+                int rowaffected = state.executeUpdate();
+                if (rowaffected > 1) {
+                    System.out.println("Deleted successfully");
+                } else {
+                    System.out.println("Error");
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }*/
+
+        }
