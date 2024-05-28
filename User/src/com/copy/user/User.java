@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 	/**
-	 * 
+	 * 	User Object
 	 */
 	private static final long serialVersionUID = 1924293866619659802L;
 	private String name;
